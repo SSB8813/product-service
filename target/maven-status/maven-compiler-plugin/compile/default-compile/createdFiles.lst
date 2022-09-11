@@ -1,0 +1,12 @@
+com\rvtech\productservice\entity\BaseEntity.class
+com\rvtech\productservice\repository\ProductRepository.class
+com\rvtech\productservice\service\ProductService.class
+com\rvtech\productservice\service\ProductServiceImpl.class
+com\rvtech\productservice\exception\ErrorMessage.class
+com\rvtech\productservice\model\ProductRequest.class
+com\rvtech\productservice\controller\ProductController.class
+com\rvtech\productservice\ProductserviceApplication.class
+com\rvtech\productservice\model\ProductUpdateRequest.class
+com\rvtech\productservice\exception\ResourceNotFoundException.class
+com\rvtech\productservice\exception\ControllerExceptionHandler.class
+com\rvtech\productservice\entity\Product.class

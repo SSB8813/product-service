@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1")
@@ -36,9 +39,6 @@ public class ProductController {
             @PathVariable Integer productId
     ){
         Product product = productService.getProduct(productId);
-        if(product == null){
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
@@ -57,7 +57,17 @@ public class ProductController {
         return productService.deleteProduct(productId);
     }
 
-    // delete request
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getAllProducts(
+        @RequestParam(defaultValue = "0") Integer pageNo,
+        @RequestParam(defaultValue = "10") Integer pageSize,
+        @RequestParam(defaultValue = "productId") String sortBy
+    ){
+        List<Product> list = productService.getAllProducts(pageNo, pageSize, sortBy);
 
-  //  get all request -- with pagination
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+
+
 }
