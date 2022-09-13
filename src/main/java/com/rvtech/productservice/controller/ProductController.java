@@ -27,8 +27,8 @@ public class ProductController {
     public ResponseEntity<Product> createProduct(
             @RequestBody ProductRequest productRequest){
 
-        Product product = productService.createProduct(productRequest);
-        return new ResponseEntity<>(product, HttpStatus.CREATED);
+        return productService.createProduct(productRequest);
+
     }
 
     @GetMapping("/products/{productId}")

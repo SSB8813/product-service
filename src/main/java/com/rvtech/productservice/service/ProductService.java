@@ -7,7 +7,7 @@ import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 
 public interface ProductService {
-    public Product createProduct(ProductRequest request);
+    public ResponseEntity<Product> createProduct(ProductRequest request);
 
     public Product getProduct(Integer productId);
 

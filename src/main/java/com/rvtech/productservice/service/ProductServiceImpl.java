@@ -20,7 +20,7 @@ public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
 
     @Override
-    public Product createProduct(ProductRequest request) {
+    public ResponseEntity<Product> createProduct(ProductRequest request) {
         //Business Logic to create product
         Product newProduct = new Product();
         newProduct.setProductName(request.getProductName());
@@ -34,8 +34,8 @@ public class ProductServiceImpl implements ProductService {
         String formatDateTime = datetime1.format(format);
         newProduct.setCreatedAt(datetime1);
 
-        return productRepository.save(newProduct);
-
+        Product newP = productRepository.save(newProduct);
+        return new ResponseEntity<>(newP, HttpStatus.CREATED);
     }
 
     @Override
