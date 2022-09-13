@@ -1,23 +1,16 @@
 package com.rvtech.productservice.service;
 
 import com.rvtech.productservice.entity.Product;
-import com.rvtech.productservice.exception.ResourceNotFoundException;
 import com.rvtech.productservice.model.ProductRequest;
 import com.rvtech.productservice.model.ProductUpdateRequest;
 import com.rvtech.productservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,7 +20,7 @@ public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
 
     @Override
-    public Product createProduct(ProductRequest request) {
+    public ResponseEntity<Product> createProduct(ProductRequest request) {
         //Business Logic to create product
         Product newProduct = new Product();
         newProduct.setProductName(request.getProductName());
@@ -41,14 +34,18 @@ public class ProductServiceImpl implements ProductService {
         String formatDateTime = datetime1.format(format);
         newProduct.setCreatedAt(datetime1);
 
-        return productRepository.save(newProduct);
-
+        Product newP = productRepository.save(newProduct);
+        return new ResponseEntity<>(newP, HttpStatus.CREATED);
     }
 
     @Override
     public Product getProduct(Integer productId) {
-       return productRepository.findById(productId)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        Optional<Product> product =
+                productRepository.findById(productId);
+        if(product.isEmpty()){
+            return null;
+        }
+        return product.get();
     }
 
     @Override
@@ -84,19 +81,4 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(productId);
         return new ResponseEntity<>("Deleted product successfully", HttpStatus.OK);
     }
-
-    @Override
-    public List<Product> getAllProducts(Integer pageNo, Integer pageSize, String sortBy) {
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-
-        Page<Product> pagedResult = productRepository.findAll(paging);
-
-        if(pagedResult.hasContent()){
-            return pagedResult.getContent();
-        }else {
-            return new ArrayList<Product>();
-        }
-    }
-
-
 }

@@ -30,13 +30,10 @@ public class ProductControllerTest {
                 new Product(1,"cake","cakes","birthday cake","/products/cakes",true,"System",null, null, null);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v1/products")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(product)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(product)))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
-    @Test
-    void testGetSingleProduct(){
 
-    }
 }
